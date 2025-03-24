@@ -1,0 +1,85 @@
+.purchase-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.card-element {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:enabled {
+  background-color: #218838;
+}
+
+.pack-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adds space between the pack items */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+}
+
+.pack-item {
+  display: flex;
+  align-items: center;
+}
+
+.pack-radio {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.pack-label {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pack-label:hover {
+  color: #007bff; /* Changes text color on hover to indicate interaction */
+}

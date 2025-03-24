@@ -1,0 +1,88 @@
+.posting-page {
+  display: flex;
+  justify-content: center; /* Centers the post box horizontally */
+  margin-top: 10px;
+  background-color: #f5f8fa;
+}
+
+.posting-container {
+  display: flex;
+  flex-direction: row; /* Align elements horizontally */
+  align-items: flex-start; /* Align items at the start of the container */
+  width: 50%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-avatar {
+  width: 40px; /* Adjust size as needed */
+  height: 40px; 
+  border-radius: 50%; /* Makes the avatar round */
+  margin-right: 10px; /* Adds space between avatar and textarea */
+}
+
+.post-box {
+  flex-grow: 1; /* Allows the textarea to grow and fill the remaining space */
+}
+
+.post-textarea {
+  width: 100%;
+  padding: 10px;
+  resize: none; /* Prevents resizing */
+  border: none; /* Removes the border */
+  font-size: 16px;
+}
+
+.dropdown {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-label {
+  margin-right: 10px;
+}
+
+.dropdown-select {
+  border: 1px solid #e1e8ed;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+#challenge-list {
+  margin-top: 10px;
+}
+
+.challenge-btn {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  background-color: lightgray;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.challenge-btn.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.submit-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #1da1f2;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button:hover {
+  background-color: #0d95e8;
+}

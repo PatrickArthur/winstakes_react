@@ -1,0 +1,174 @@
+.challenges-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.challenges-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.challenge-item {
+  margin: 10px 0;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.challenge-item:hover {
+  background-color: #e0f7fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.challenge-item h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #00796b;
+}
+
+.challenge-item p {
+  margin: 5px 0 0;
+  color: #555;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 5px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button-icon {
+  margin-right: 8px;
+}
+
+.button.delete {
+  background-color: #dc3545;
+}
+
+.button.delete:hover {
+  background-color: #c82333;
+}
+
+.participants-table th,
+.participants-table td {
+  padding: 10px 20px; /* Adjust the values to suit your needs */
+}
+
+.participants-table {
+  border-collapse: collapse; /* You can set it to separate if you want more spacing without adjusting padding */
+  width: 40%; /* Optional if you want the table to take the full width of its container */
+  margin-bottom: 20px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;   /* Set the width to your desired size */
+  height: 25px;  /* Set the height to the same size as the width */
+  color: #fff;
+  background-color: #c82333;
+  border: none;             /* Remove default border */
+  border-radius: 25%;       /* Optional: make button round */
+  cursor: pointer;          /* Change cursor to pointer */
+}
+
+.button-icon-cp {
+  font-size: .65em; /* Using 1em for base size, adjust as needed */
+}
+
+/* Additional styles for hover effect, if desired */
+.icon-button:hover {
+  background-color: #e0e0e0; /* Slightly different shade on hover */
+}
+
+.criteria-container {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.criterion-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.criterion-input, .score-input {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+.remove-button, .add-button {
+  padding: 8px 16px;
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.remove-button:hover {
+  background-color: #c9302c;
+}
+
+.add-button {
+  background-color: #5cb85c;
+  margin-top: 10px;
+}
+
+.add-button:hover {
+  background-color: #4cae4c;
+}
+
+.challenge-show-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Make sure the div takes the full height of the viewport */
+    text-align: center; /* Center text within the elements */
+}
+
+.button-group {
+  display: flex;
+  align-items: center; /* Centers buttons vertically */
+}
+
+.button-group .button, .button-group .like-button {
+  margin-right: 8px; /* Add spacing between buttons */
+}
+
+.button-group > :last-child {
+  margin-right: 0; /* Remove margin from the last button */
+}

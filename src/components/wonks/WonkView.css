@@ -1,0 +1,39 @@
+.wonk-form {
+  display: flex;
+  flex-direction: column; /* Align items in a column */
+  max-width: 400px;        /* Limits how wide the form can be */
+  margin: 20px auto;       /* Center the form with margin auto */
+  padding: 20px;           /* Add some padding inside the form */
+  border-radius: 5px;      /* Rounded corners for the form */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.wonk-input {
+  padding: 10px;           /* Space inside the input */
+  margin-bottom: 10px;     /* Space below the input */
+  border: 1px solid #ddd;  /* Light border */
+  border-radius: 3px;      /* Rounded corners for the input */
+  font-size: 16px;         /* Increase font size */
+}
+
+.wonk-input:focus {
+  border-color: #4CAF50;   /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.wonk-button {
+  padding: 10px 15px;      /* Button space */
+  border: none;            /* Remove borders */
+  border-radius: 3px;      /* Rounded corners */
+  background-color: #4CAF50; /* Primary button color */
+  color: white;            /* Text color */
+  font-size: 16px;         /* Font size for button */
+  cursor: pointer;         /* Mouse pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.wonk-button:hover {
+  background-color: #45a049; /* Darker on hover */
+}
+

@@ -1,0 +1,24 @@
+.nav-link {
+       position: relative;
+       display: inline-block;
+   }
+
+   .badge-danger {
+       display: inline-flex; /* Use inline-flex to keep it in-line but apply flexbox centering */
+       justify-content: center; /* Center content horizontally */
+       align-items: center; /* Center content vertically */
+       background-color: #dc3545;
+       color: #fff;
+       font-size: 0.8rem;
+       font-weight: bold;
+       width: 1.1rem; /* Set fixed width to maintain circle shape */
+       height: 1.1rem; /* Set fixed height to maintain circle shape */
+       border-radius: 50%; /* Make it a perfect circle */
+       text-align: center; /* Center the text within */
+   }
+
+   .badge-danger.position-absolute {
+       top: 0; /* Adjust top to position correctly */
+       right: 0; /* Adjust right for positioning */
+       transform: translate(50%, -50%);
+   }

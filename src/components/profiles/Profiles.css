@@ -1,0 +1,176 @@
+/* Profiles.css */
+    
+    /* profile-container styles */
+    .profile-container {
+      width: 60%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background-color: #fff;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    /* h2 styles */
+    .profile-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* button styles */
+    .profile-container button {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    /* button hover effect */
+    .profile-container button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Main profile image styles */
+    .profile-container img {
+      margin: 15px auto;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    /* Paragraphs styles */
+    .profile-container p {
+      margin: 10px 0;
+      color: #555;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .profile-image-container {
+      display: flex;
+      justify-content: center; /* Center the image container */
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px; /* Adjust space between image and details if needed */
+    }
+
+    .profile-details {
+      flex: 1;
+      margin-right: auto;
+    }
+
+    .profile-image {
+      /* Optional: Add additional styling if needed */
+    }
+
+    .edit-icon {
+      cursor: pointer;
+      color: #007bff; /* Change to your preferred color */
+      font-size: 24px; /* Adjust as needed */
+    }
+
+    .edit-icon:hover {
+      color: #0056b3; /* Adjust as needed */
+    }
+
+    /* wonk-container styles */
+    .wonk-container {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 5px;
+      text-align: left;
+    }
+
+    /* Small image inside wonk-container styles */
+    .wonk-container img {
+      margin-right: 10px;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+
+    .form-group {
+      margin-bottom: 1rem; /* Adds some spacing below the form group */
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center; /* Centers the checkbox vertically with the text */
+    }
+
+    .checkbox-input {
+      margin-right: 0.5rem; /* Adds some space between the label text and the checkbox */
+    }
+
+    .profile-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background-color: #f9f9f9;
+    }
+
+    .button {
+      margin: 8px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .button .icon {
+      margin-right: 8px;
+    }
+
+    .button-add {
+      background-color: #ddeeff;
+    }
+
+    .button-remove {
+      background-color: #ffdddd;
+    }
+
+    .button-message {
+      background-color: #e0ffe0;
+    }
+
+   .profile-stats {
+      display: flex;
+      justify-content: center; /* Centers the links inside this container */
+      width: 100%;
+    }
+
+    /* Stat Links */
+    .stat-link {
+      text-decoration: none;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .stat-link + .stat-link {
+      margin-left: 1rem; /* Spacing between each link */
+    }
+
+    .stat-link:hover {
+      color: #1da1f2; /* Link hover effect */
+    }
+
+    /* Stat Label */
+    .stat-label {
+      margin-left: 0.3rem;
+      color: #536471;
+    }

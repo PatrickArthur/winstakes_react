@@ -1,0 +1,159 @@
+.challenge-link {
+  text-decoration: none; /* Example style for the link */
+  color: blue; /* Example link color */
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  textarea,
+  input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+.entry-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.entry-header {
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.entry-profile-name {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.entry-user-email {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.attachments-section {
+  margin-bottom: 20px;
+}
+
+.attachment-item {
+  margin: 10px 0;
+}
+
+.attachment-thumbnail, .video-thumbnail, .attachment-image {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+  border-radius: 4px;
+}
+
+.attachment-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 0;
+}
+
+.attachment-image {
+  max-width: 100px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+.entry-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button, .delete-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.entry-current-score {
+  display: flex;
+  gap: 10px; /* Add space between the elements if needed */
+}
+
+.score-detail {
+  margin: 0;
+}
+
+.entry-actions .vote-button {
+  background-color: #007BFF; /* Green background */
+  border: none;              /* Remove borders */
+  color: white;              /* White text */
+  padding: 10px 20px;        /* Some padding */
+  text-align: center;        /* Centered text */
+  text-decoration: none;     /* No underline */
+  display: inline-block;     /* Make it appear inline */
+  font-size: 16px;           /* Increase font size */
+  margin: 4px 2px;           /* Add some margin */
+  cursor: pointer;           /* Add a pointer cursor on hover */
+  border-radius: 5px;        /* Rounded corners */
+}
+
+.entry-actions .vote-button:hover {
+  background-color: #0056b3; /* Darker green on hover */
+}
+
+.entry-actions .icon {
+  margin-right: 4px;         /* Space between icon and text */
+  vertical-align: middle;    /* Align the icon with text */
+}
