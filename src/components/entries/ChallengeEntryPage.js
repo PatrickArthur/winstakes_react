@@ -3,6 +3,9 @@ import './entries.css'; // Your CSS file
 import consumer from '../../consumer';
 import { useNavigate } from 'react-router-dom';
 import { FaThumbsUp } from 'react-icons/fa';
+import { fetchProfile } from '../../services/profileService';
+import { isVotingOpen, canUserVote } from "../voting/votingHelpers";
+import VoteButton from "../voting/VoteButton";
 
 
 const ChallengeEntryPage = ({ token, challengeId, participantId, entryId}) => {
@@ -15,6 +18,8 @@ const ChallengeEntryPage = ({ token, challengeId, participantId, entryId}) => {
   const [isCreator, setIsCreator] = useState(false);
   const profileId = localStorage.getItem('profile_id')
   const [hasVoted, setHasVoted] = useState(false);
+  const [creatorId, setCreatorId] = useState(false);
+  const [isFollowerOfCreator, setIsFollowerOfCreator] = useState(false); 
 
   const fetchEntryData = async () => {
       try {
@@ -33,32 +38,38 @@ const ChallengeEntryPage = ({ token, challengeId, participantId, entryId}) => {
         const data = await response.json();
         setEntry(data.entry);
         setIsEntered(data.entry.challenge_participant.profile_id == profileId)
+        setCreatorId(data.entry.challenge.creator_id)
         setIsCreator(data.entry.challenge_participant.creator_id == profileId)
       } catch (error) {
         console.error('Fetch error:', error);
       }
-    };
+  };
 
-    const fetchVote = async () => {
-      try {
-        const response = await fetch(
-          `${API_URL}/challenges/${challengeId}/challenge_participants/${participantId}/entries/${entryId}/votes/check?profile_id=${profileId}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,  // Include the token in the request headers
-              'Content-Type': 'application/json'
-            }
+  const fetchVote = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/challenges/${challengeId}/challenge_participants/${participantId}/entries/${entryId}/votes/check?profile_id=${profileId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,  // Include the token in the request headers
+            'Content-Type': 'application/json'
           }
-        );
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        setHasVoted(data.voted)
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setHasVoted(data.voted)
       } catch (error) {
         console.error('Fetch error:', error);
       }
-    };
+  };
+
+  const fetchUserProfile = async () => {
+    await fetchProfile(API_URL, creatorId, token, setIsFollowerOfCreator);
+  }
+
 
   useEffect(() => {
      
@@ -201,10 +212,9 @@ const ChallengeEntryPage = ({ token, challengeId, participantId, entryId}) => {
             Delete
           </button>
         )}
-        {(isEntered || isCreator) && (
-          <button className="vote-button" disabled={hasVoted} onClick={voteForEntry}>
-            <FaThumbsUp className="icon" /> {hasVoted ? 'Vote Cast' : 'Vote'}
-          </button>
+        {isVotingOpen(entry.challenge) &&
+          canUserVote(entry.challenge, isEntered, isFollowerOfCreator) && (
+            <VoteButton api_url={API_URL} token={token} entryId={entry.id} challengeId={entry.challenge.id} profileId={profileId}/>
         )}
       </div>
     </div>

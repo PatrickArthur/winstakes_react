@@ -3,7 +3,9 @@ import consumer from '../../consumer';
 import './entries.css'; // Your CSS file
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { isVotingOpen, canUserVote } from "../voting/votingHelpers";
+import VoteButton from "../voting/VoteButton";
+import { fetchProfile } from '../../services/profileService';
 
 const ChallengeEntries = ({token, challengeId, profileId}) => {
     const [challenge, setChallenge] = useState(null);
@@ -11,7 +13,9 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
     const [loading, setLoading] = useState(true);
     const API_URL = 'http://localhost:4000'; // Replace this with your API's base route
     const [participant, setParticipant] = useState(false);
+    const [creatorId, setCreatorId] = useState(false);
     const [isParticipant, setIsParticipant] = useState(false);
+    const [isFollowerOfCreator, setIsFollowerOfCreator] = useState(false); 
     const [entries, setEntries] = useState([]);
     const [isEntered, setIsEntered] = useState(false);
     const [fileDownload, setFileDownload] = useState(null);
@@ -41,6 +45,7 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
 
           const data = await response.json();
           setChallenge(data.challenge);
+          setCreatorId(data.challenge.creator_id)
           setParticipant(data.challenge.challenge_participants.filter(challenge => challenge.profile_id == profileId && challenge.challenge_id == challengeId)[0])
           setIsParticipant(data.challenge.challenge_participants.some(challenge => challenge.profile_id == profileId))
         } catch (err) {
@@ -69,8 +74,13 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
         }
       };
 
+      const fetchUserProfile = async () => {
+        await fetchProfile(API_URL, creatorId, token, setIsFollowerOfCreator);
+      }
+
       fetchEntries();
       fetchChallenge();
+      fetchUserProfile();
 
         // Subscribe to Action Cable channel
       const subscription = consumer.subscriptions.create(
@@ -182,7 +192,6 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
       return new Date(b.created_at) - new Date(a.created_at);
     });
 
-    console.log(sortedEntries)
     return (
       <div className="challenge-show-page">
         <h1>{challenge.title}</h1>
@@ -245,6 +254,10 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
                         )}
                         <td>{participant.vote_count}</td>
                         <td>{participant.weighted_score}</td>
+                        {isVotingOpen(challenge) &&
+                          canUserVote(challenge, isParticipant, isFollowerOfCreator) && (
+                            <VoteButton api_url={API_URL} token={token} entryId={participant.id} challengeId={challenge.id} profileId={profileId}/>
+                        )}
                     </tr>
                   ))}
                 </tbody>

@@ -333,7 +333,7 @@ const NewChallengeForm = ({token, challengeId}) => {
                 <option value="" disabled>Select a Judging Method</option>
                 <option value="publicVote">Public Vote (Participants and Platform Users)</option>
                 <option value="participantsOnly">Participants Only</option>
-                <option value="automatedFirstComplete">Hybrid Vote (Particpants and Followers)</option>
+                <option value="hybridVote">Hybrid Vote (Particpants and Followers)</option>
               </select>
             </div>
 
