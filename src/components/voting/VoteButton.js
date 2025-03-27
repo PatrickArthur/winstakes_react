@@ -11,7 +11,7 @@ const VoteButton = ({api_url, token, entryId, challengeId, profileId}) => {
     const checkVoteStatus = async () => {
       try {
         // Make an API call to check if the user has voted
-        const response = await fetch(`/check_vote?profile_id=${profileId}&entry_id=${entryId}`, {
+        const response = await fetch(`${api_url}/votes/check_vote?profile_id=${profileId}&entry_id=${entryId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

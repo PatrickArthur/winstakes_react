@@ -18,7 +18,6 @@ import Comment from './components/comments/Comment';
 import NewChallengeForm from './components/challenges/NewChallengeForm';
 import ChallengeList from './components/challenges/ChallengeList';
 import ChallengePage from './components/challenges/ChallengePage';
-import ChallengeEntries from './components/entries/ChallengeEntries';
 import ChallengeEntryForm from './components/entries/ChallengeEntryForm';
 import ChallengeEntryPage  from './components/entries/ChallengeEntryPage';
 import ChallengeParticipants from './components/challenges/ChallengeParticipants';
@@ -93,7 +92,6 @@ const App = () => {
                 <Route path="/challenges/new" element={<NewChallengeForm token={getToken()} />} />
                 <Route path="/challenges/:id" element={<ChallengePageWrapper />} />
                 <Route path="/edit/challenges/:id" element={<NewChallengeFormWrapper />} />
-                <Route path="/challenges/:id/entries" element={<EntriesWrapper />} />
                 <Route path="/challenges/:challengeId/entries/:participantId" element={<EntriesFormWrapper />} />
                 <Route path="/challenges/:challengeId/entries/:participantId/:entryId" element={<EntriesFormWrapper />} />
                 <Route path="/challenges/:challengeId/challenge_participants/:participantId/entries/:entryId" element={<ChallengeEntryPageWrapper />} />
@@ -146,11 +144,6 @@ const App = () => {
   function EntriesFormWrapper() {
     const { challengeId, participantId, entryId } = useParams();
     return <ChallengeEntryForm token={getToken()} challengeId={challengeId} participantId={participantId} entryId={entryId}/>;
-  }
-
-  function EntriesWrapper() {
-    const { id } = useParams();
-    return <ChallengeEntries token={getToken()} challengeId={id} profileId={localStorage.getItem('profile_id')}/>;
   }
 
   function NewChallengeFormWrapper() {

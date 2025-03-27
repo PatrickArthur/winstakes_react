@@ -9,9 +9,8 @@ import { FaComment } from 'react-icons/fa';
 import moment from 'moment';
 import axios from 'axios';
 import { fetchWonks, wonkSubscription, CurrentUserProfile, useInfiniteScroll } from '../../services/wonkService';
-import WonkView from '../wonks/WonkView';
 import LikeButton from '../likes/LikeButton';
-import './challenges.css'; // Your CSS file
+import ChallengeTabs from './ChallengeTabs';
 
 const ChallengePage = ({token, challengeId, profileId}) => {
     const [challenge, setChallenge] = useState(null);
@@ -29,6 +28,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     const [hasMore, setHasMore] = useState(true); // To check if more data is available
     const [page, setPage] = useState(1);
     const storedProfileId = localStorage.getItem('profile_id');
+    const [creatorId, setCreatorId] = useState(false);
 
     useEffect(() => {
       const fetchChallenge = async () => {
@@ -44,6 +44,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
 
           const data = await response.json();
           setChallenge(data.challenge);
+          setCreatorId(data.challenge.creator_id)
           setParticipant(data.challenge.challenge_participants.filter(challenge => challenge.profile_id == profileId && challenge.challenge_id == challengeId)[0])
           setIsParticipant(data.challenge.challenge_participants.some(challenge => challenge.profile_id == profileId))
           setParticipants(data.challenge.challenge_participants.filter(challenge => challenge.profile_id != profileId))
@@ -203,20 +204,8 @@ const ChallengePage = ({token, challengeId, profileId}) => {
           </div>
         ) : null}
 
-        {sortedParticipants.length > 0 ? (
-          <Link to={`/challenges/${challenge.id}/challenge_participants/${challenge.creator_id}`} className="challenge-link">
-            View Challenge Participants
-          </Link>
-        ) : null}
-        <br />
         {isOwner && (
           <div>
-            <Link to={`/challenges/${challenge.id}/entries`} className="challenge-link">
-              View Challenge Entries
-            </Link>
-            <br />
-
-            {/* Button group for Edit, Delete, and Like buttons */}
             <div className="button-group">
               <button className="button edit" onClick={handleEdit}>
                 <i className="fa-solid fa-pencil-alt button-icon"></i>Edit Challenge
@@ -224,19 +213,20 @@ const ChallengePage = ({token, challengeId, profileId}) => {
               <button className="button delete" onClick={handleDeleteChallenge}>
                 <i className="fa-solid fa-trash button-icon"></i>Delete Challenge
               </button>
-              <LikeButton
-                api_url={API_URL}
-                token={token}
-                resourceType="challenge"
-                resourceId={challenge.id}
-                commentId={null}
-                initialLiked={initialLiked}
-                initialCount={challenge.likes.length}
-                likeId={likeId}
-              />
             </div>
           </div>
         )}
+
+        <LikeButton
+            api_url={API_URL}
+            token={token}
+            resourceType="challenge"
+            resourceId={challenge.id}
+            commentId={null}
+            initialLiked={initialLiked}
+            initialCount={challenge.likes.length}
+            likeId={likeId}
+          />
 
         {!isOwner && !isParticipant ? (
           <button className="button join" onClick={handleJoin}>
@@ -244,16 +234,22 @@ const ChallengePage = ({token, challengeId, profileId}) => {
           </button>
         ) : isParticipant ? (
           <>
-            <Link to={`/challenges/${challenge.id}/entries`} className="challenge-link">
-              View Challenge Entries
-            </Link>
-            <br/>
             <button className="btn btn-danger" onClick={handleUnjoin}>
               Leave Challenge
             </button>
           </>
         ) : null}
-        <WonkView wonks={wonks} profileId={profileId} setWonks={setWonks} newWonkContent={newWonkContent} setNewWonkContent={setNewWonkContent} challengeId={challengeId} hasMore={hasMore}/>
+        <ChallengeTabs
+          token={token}
+          challengeId={challengeId}
+          profileId={profileId}
+          creatorId={creatorId}
+          wonks={wonks}
+          setWonks={setWonks}
+          newWonkContent={newWonkContent}
+          setNewWonkContent={setNewWonkContent}
+          hasMore={hasMore}
+        />
     </div>
     );
 

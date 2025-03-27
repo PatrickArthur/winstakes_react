@@ -191,16 +191,9 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
       // Tertiary sort by created_at (descending) if both votes and score are the same
       return new Date(b.created_at) - new Date(a.created_at);
     });
-
+    
     return (
-      <div className="challenge-show-page">
-        <h1>{challenge.title}</h1>
-        <p>Duration: {challenge.duration} days</p>
-        <p>{challenge.description}</p>
-        {isParticipant && !isEntered && (
-          <Link to={`/challenges/${challengeId}/entries/${participant.id}`}> - View Entry Form</Link>
-        )}
-        <div>
+      <div>
           <h4>Challenge Entries</h4>
             {sortedEntries.length <= 0 ? (
               <p>No entries for challenge.</p>
@@ -264,7 +257,6 @@ const ChallengeEntries = ({token, challengeId, profileId}) => {
               </table>
             )}
         </div>
-      </div>
     );
 };
 
