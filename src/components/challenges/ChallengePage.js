@@ -28,7 +28,6 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     const [hasMore, setHasMore] = useState(true); // To check if more data is available
     const [page, setPage] = useState(1);
     const storedProfileId = localStorage.getItem('profile_id');
-    const [creatorId, setCreatorId] = useState(false);
 
     useEffect(() => {
       const fetchChallenge = async () => {
@@ -44,7 +43,6 @@ const ChallengePage = ({token, challengeId, profileId}) => {
 
           const data = await response.json();
           setChallenge(data.challenge);
-          setCreatorId(data.challenge.creator_id)
           setParticipant(data.challenge.challenge_participants.filter(challenge => challenge.profile_id == profileId && challenge.challenge_id == challengeId)[0])
           setIsParticipant(data.challenge.challenge_participants.some(challenge => challenge.profile_id == profileId))
           setParticipants(data.challenge.challenge_participants.filter(challenge => challenge.profile_id != profileId))
@@ -71,24 +69,6 @@ const ChallengePage = ({token, challengeId, profileId}) => {
         subscription.unsubscribe();
       };
     }, [challengeId, token]);
-
-    useEffect(() => {
-      const fetchWonkData = async () => {
-        await fetchWonks(API_URL, token, profileId, challengeId, setWonks, setHasMore, page);
-      };
-
-       if (token && challengeId) {
-          fetchWonkData();
-       }
-
-       const subscription = wonkSubscription(consumer, profileId, challengeId, setWonks);
-
-       return () => {
-         if (subscription) {
-           consumer.subscriptions.remove(subscription);
-         }
-       };
-    }, [token, challengeId, page]);
 
     const handleEdit = () => {
       navigate(`/edit/challenges/${challengeId}`);
@@ -191,6 +171,16 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     return (
       <div className="challenge-show-page">
         <h1>{challenge.title}</h1>
+        <LikeButton
+            api_url={API_URL}
+            token={token}
+            resourceType="challenge"
+            resourceId={challenge.id}
+            commentId={null}
+            initialLiked={initialLiked}
+            initialCount={challenge.likes.length}
+            likeId={likeId}
+        />
         <p>Duration: {challenge.duration} days</p>
         <p>{challenge.description}</p>
 
@@ -207,43 +197,30 @@ const ChallengePage = ({token, challengeId, profileId}) => {
         {isOwner && (
           <div>
             <div className="button-group">
-              <button className="button edit" onClick={handleEdit}>
+              <button className="button edit" onClick={handleEdit} style={{ marginBottom: '20px' }}>
                 <i className="fa-solid fa-pencil-alt button-icon"></i>Edit Challenge
               </button>
-              <button className="button delete" onClick={handleDeleteChallenge}>
+              <button className="button delete" onClick={handleDeleteChallenge} style={{ marginBottom: '20px' }}>
                 <i className="fa-solid fa-trash button-icon"></i>Delete Challenge
               </button>
             </div>
           </div>
         )}
-
-        <LikeButton
-            api_url={API_URL}
-            token={token}
-            resourceType="challenge"
-            resourceId={challenge.id}
-            commentId={null}
-            initialLiked={initialLiked}
-            initialCount={challenge.likes.length}
-            likeId={likeId}
-          />
-
         {!isOwner && !isParticipant ? (
-          <button className="button join" onClick={handleJoin}>
+          <button className="button join" onClick={handleJoin} style={{ marginBottom: '20px' }}>
             Join Challenge
           </button>
         ) : isParticipant ? (
           <>
-            <button className="btn btn-danger" onClick={handleUnjoin}>
+            <button className="btn btn-danger" onClick={handleUnjoin} style={{ marginBottom: '20px' }}>
               Leave Challenge
             </button>
           </>
         ) : null}
         <ChallengeTabs
           token={token}
-          challengeId={challengeId}
+          challenge={challenge}
           profileId={profileId}
-          creatorId={creatorId}
           wonks={wonks}
           setWonks={setWonks}
           newWonkContent={newWonkContent}

@@ -6,7 +6,7 @@ import ChallengeParticipants from "./ChallengeParticipants";
 import WonkView from '../wonks/WonkView';
 import './ChallengeTabs.css'; // Your CSS file
 
-const ChallengeTabs = ({ token, challengeId, profileId, creatorId, wonks, setWonks, newWonkContent, setNewWonkContent, hasMore }) => {
+const ChallengeTabs = ({ token, challenge, profileId, wonks, setWonks, newWonkContent, setNewWonkContent, hasMore }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
@@ -36,16 +36,17 @@ const ChallengeTabs = ({ token, challengeId, profileId, creatorId, wonks, setWon
         {activeTab === "entries" && (
           <ChallengeEntries
             token={token}
-            challengeId={challengeId}
+            challenge={challenge}
             profileId={profileId}
+            creatorId={challenge.creator_id}
           />
         )}
 
         {activeTab === "participants" && (
           <ChallengeParticipants
             token={token}
-            challengeId={challengeId}
-            creatorId={creatorId}
+            challenge={challenge}
+            creatorId={challenge.creator_id}
             profileId={profileId}
           />
         )}

@@ -1,41 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import './challenges.css'; // Your CSS file
+import './ChallengeParticpants.css'; // Your CSS file
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 
-const ChallengeParticpants = ({token, challengeId, creatorId, profileId}) => {
+const ChallengeParticpants = ({token, challenge, creatorId, profileId}) => {
+    const challengeId = challenge.id
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const API_URL = 'http://localhost:4000'; // Replace this with your API's base route
     const navigate = useNavigate();
-    const [participants, setParticipants] = useState([]);
+    const [participants, setParticipants] = useState(challenge.challenge_participants);
     const isCreator = creatorId == profileId
-
-    useEffect(() => {
-      const fetchChallengeParticpants = async () => {
-        try {
-          const response = await fetch(`${API_URL}/challenges/${challengeId}/challenge_participants`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          });
-          
-          if (!response.ok) throw new Error('Failed to fetch challenge');
-
-          const data = await response.json();
-          setParticipants(data.challenge_participants.filter(challenge => challenge.profile_id != profileId))
-        } catch (err) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchChallengeParticpants();
-
-    }, [challengeId, token]);
 
     const handleDelete = async (participantId) => {
       try {
@@ -57,26 +33,18 @@ const ChallengeParticpants = ({token, challengeId, creatorId, profileId}) => {
       }
     };
 
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-
-    if (error) {
-      return <p>Error: {error}</p>;
-    }
-
     if (!participants) {
       return <p>No challenge participants data available.</p>;
     }
+    
     const sortedParticipants = [...participants].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   
     return (
-      <div>
-        <h4>Participants</h4>
+      <div className="participants-container">
             {sortedParticipants.length <= 0 ? (
               <p>No participants have joined yet.</p>
             ) : (
-              <table className="participants-table">
+              <table className="participants-list">
                 <thead>
                   <tr>
                     <th></th>
