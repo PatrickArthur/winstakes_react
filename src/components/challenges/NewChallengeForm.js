@@ -17,6 +17,7 @@ const NewChallengeForm = ({token, challengeId}) => {
     criteria_for_winning: '',
     duration: '',
   });
+  const [entryFee, setEntryFee] = useState('');
   const [selectedJudges, setSelectedJudges] = useState([]);
   const [judges, setJudges] = useState([]);
   const [selectedJudgeMethod, setSelectedJudgeMethod] = useState('');
@@ -54,6 +55,7 @@ const NewChallengeForm = ({token, challengeId}) => {
           setFixedTokenPrize(data.challenge.fixed_token_prize)
           setProductId(data.challenge.product_id)
           setVideo(data.challenge.video_url)
+          setEntryFee(data.challenge.entry_fee)
           const mappedCriteria = data.challenge.criteria.map(criterion => ({
             name: criterion.name,
             maxScore: criterion.max_score
@@ -160,6 +162,16 @@ const NewChallengeForm = ({token, challengeId}) => {
     }
   };
 
+  const handleEntryFeeChange = (e) => {
+    const value = e.target.value;
+    // Check if the value is a valid number
+    if (!isNaN(value) && Number(value) >= 0) {
+      setEntryFee(value);
+    } else {
+      setEntryFee(value);
+    }
+  };
+
   const handleCriterionChange = (index, event) => {
     const newCriteria = criteria.map((criterion, idx) => {
       if (idx === index) {
@@ -192,9 +204,11 @@ const NewChallengeForm = ({token, challengeId}) => {
     formData.append('challenge[description]', challenge.description);
     formData.append('challenge[criteria_for_winning]', challenge.criteria_for_winning);
     formData.append('challenge[duration]', challenge.duration);
+    formData.append('challenge[entry_fee]', entryFee);
 
     // Append prize data
     formData.append('challenge[judging_method]', selectedJudgeMethod);
+    formData.append('challenge[finals_judging]', selectedJudgeFinal);
     formData.append('challenge[prize_type]', prizeType);
     formData.append('challenge[start_date]', startDate);
     formData.append('challenge[end_date]', endDate);
@@ -212,6 +226,10 @@ const NewChallengeForm = ({token, challengeId}) => {
         formData.append('challenge[fixed_token_prize]', fixedTokenPrize.toString());
       }
     }
+
+    selectedJudges.forEach(judgeId => {
+      formData.append('judges[]', judgeId); 
+    });
 
     if (prizeType === 'product') {
       formData.append('challenge[product_id]', productId.toString());
@@ -420,7 +438,7 @@ const NewChallengeForm = ({token, challengeId}) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="startDate" className="signup-label">Start Date</label>
+              <label htmlFor="endDate" className="signup-label">End Date</label>
               <DatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
@@ -431,6 +449,17 @@ const NewChallengeForm = ({token, challengeId}) => {
                 scrollableYearDropdown
                 yearDropdownItemNumber={15}
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="entry_fee">Entry Fee</label>
+                <input
+                  type="number"
+                  value={entryFee}
+                  onChange={handleEntryFeeChange}
+                  min="0" // HTML5 attribute to not allow numbers less than zero
+                  step="any"
+                />
             </div>
             
             <div className="form-group">

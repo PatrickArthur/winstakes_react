@@ -11,6 +11,8 @@ import axios from 'axios';
 import { fetchWonks, wonkSubscription, CurrentUserProfile, useInfiniteScroll } from '../../services/wonkService';
 import LikeButton from '../likes/LikeButton';
 import ChallengeTabs from './ChallengeTabs';
+import JoinLeaveButtons from './JoinLeaveButtons'
+import ChallengeStatusTag from './ChallengeStatusTag';
 
 const ChallengePage = ({token, challengeId, profileId}) => {
     const [challenge, setChallenge] = useState(null);
@@ -22,7 +24,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     const [user, setUser] = useState(null);
     const [participant, setParticipant] = useState(false);
     const [isParticipant, setIsParticipant] = useState(false);
-    const [participants, setParticipants] = useState([]);
+    const [isEntered, setIsEntered] = useState(false);
     const [wonks, setWonks] = useState([]);
     const [newWonkContent, setNewWonkContent] = useState('');
     const [hasMore, setHasMore] = useState(true); // To check if more data is available
@@ -42,10 +44,11 @@ const ChallengePage = ({token, challengeId, profileId}) => {
           if (!response.ok) throw new Error('Failed to fetch challenge');
 
           const data = await response.json();
+          debugger
           setChallenge(data.challenge);
+          setIsEntered(data.challenge.entries.some(challenge => challenge.challenge_participant.profile_id == profileId))
           setParticipant(data.challenge.challenge_participants.filter(challenge => challenge.profile_id == profileId && challenge.challenge_id == challengeId)[0])
           setIsParticipant(data.challenge.challenge_participants.some(challenge => challenge.profile_id == profileId))
-          setParticipants(data.challenge.challenge_participants.filter(challenge => challenge.profile_id != profileId))
         } catch (err) {
           setError(err.message);
         } finally {
@@ -87,60 +90,10 @@ const ChallengePage = ({token, challengeId, profileId}) => {
         if (!response.ok) throw new Error('Failed to delete challenge');
 
         // Handle successful deletion (e.g., redirect or display a message)
-        navigate(`/challenges`); 
+        navigate(`/created-challenges`); 
         alert('Challenge deleted successfully.');
       } catch (err) {
         setError(err.message);
-      }
-    };
-
-    const handleJoin = async () => {
-       try {
-        const response = await fetch(`${API_URL}/challenges/${challengeId}/challenge_participants/join`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Assuming the user token is available for auth
-          },
-          body: JSON.stringify({ profile_id: profileId, challenge_id: challengeId }), // Payload if needed
-        });
-
-        if (!response.ok) {
-          // Handle response errors
-          throw new Error('Failed to join challenge');
-        }
-
-        const result = await response.json();
-        setIsParticipant(true)
-        console.log('Joined successfully:', result);
-      } catch (error) {
-        console.error('Error joining challenge:', error);
-        // Optionally, show error message to the user
-      }
-    };
-
-    const handleUnjoin = async () => {
-      try {
-        const response = await fetch(`${API_URL}/challenges/${challengeId}/challenge_participants/unjoin`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,  // Ensure you have the token for authentication
-          },
-          body: JSON.stringify({ participant_id: participant.id }),  // Ensure the correct ID is passed
-        });
-
-        if (response.ok) {
-          console.log("Unjoined successfully.");
-          setIsParticipant(false);  // Update state to reflect that the user is no longer a participant
-        } else {
-          const errorData = await response.json();
-          console.error(errorData.error || "Unable to unjoin.");
-          // Optionally, handle the error by displaying a message to the user
-        }
-      } catch (error) {
-        console.error("Network error: ", error);
-        // Optionally, handle the network error
       }
     };
 
@@ -163,14 +116,26 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     }
 
     const isOwner = challenge.creator.profile_id == profileId;
-    const sortedParticipants = [...participants].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     const likedRecord = challenge.likes.find((like) => like.profile_id === storedProfileId);
     const likeId = likedRecord ? likedRecord.id : null;
     const initialLiked = challenge.likes.some(like => like.profile_id == storedProfileId)
 
     return (
       <div className="challenge-show-page">
-        <h1>{challenge.title}</h1>
+        <h1 className="challenge-title">{challenge.title}</h1>
+        <ChallengeStatusTag status={challenge.status} />
+        <div className="challenge-info">
+          <p>Starts: {new Date(challenge.start_date).toLocaleString()}</p>
+          <p>Voting: {new Date(challenge.voting_start_time).toLocaleString()}</p>
+          <p>Ends: {new Date(challenge.end_date).toLocaleString()}</p>
+          <p>Duration: {challenge.duration} days</p>
+        </div>
+        <div className="challenge-status">
+          {challenge.status === 'open' && <p>Entries are open!</p>}
+          {challenge.status === 'voting' && <p>Voting is live!</p>}
+          {challenge.status === 'closed' && <p>This challenge is over.</p>}
+        </div>
+        <p className="challenge-description">{challenge.description}</p>
         <LikeButton
             api_url={API_URL}
             token={token}
@@ -181,8 +146,10 @@ const ChallengePage = ({token, challengeId, profileId}) => {
             initialCount={challenge.likes.length}
             likeId={likeId}
         />
-        <p>Duration: {challenge.duration} days</p>
-        <p>{challenge.description}</p>
+
+        {isParticipant && !isEntered && (
+          <Link to={`/challenges/${challengeId}/entries/${participant.id}`}> - View Entry Form</Link>
+        )}
 
         {challenge.video_url ? (
           <div>
@@ -206,17 +173,16 @@ const ChallengePage = ({token, challengeId, profileId}) => {
             </div>
           </div>
         )}
-        {!isOwner && !isParticipant ? (
-          <button className="button join" onClick={handleJoin} style={{ marginBottom: '20px' }}>
-            Join Challenge
-          </button>
-        ) : isParticipant ? (
-          <>
-            <button className="btn btn-danger" onClick={handleUnjoin} style={{ marginBottom: '20px' }}>
-              Leave Challenge
-            </button>
-          </>
-        ) : null}
+        <JoinLeaveButtons
+          api_url={API_URL}
+          isOwner={isOwner}
+          isParticipant={isParticipant}
+          participantId={participant ? participant.id : null}
+          challengeId={challenge.id}
+          profileId={profileId}
+          token={token}
+          setIsParticipant={setIsParticipant}
+        />
         <ChallengeTabs
           token={token}
           challenge={challenge}

@@ -152,12 +152,22 @@
 }
 
 .challenge-show-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Make sure the div takes the full height of the viewport */
-    text-align: center; /* Center text within the elements */
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  max-width: 800px; /* Increased maximum width */
+  width: 100%; /* Use all available space within the parent */
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  overflow: auto;
 }
 
 .button-group {
@@ -171,5 +181,26 @@
 
 .button-group > :last-child {
   margin-right: 0; /* Remove margin from the last button */
+}
+
+.challenge-title {
+    font-size: 2em;
+    margin: 0.5em 0; /* Ensure spacing is maintained */
+    word-wrap: break-word; /* Prevent long text from overflowing */
+    overflow-wrap: break-word; /* Similar property for certain browsers */
+}
+
+.challenge-info p {
+  margin: 5px 0;
+}
+
+.challenge-status {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.challenge-description {
+  margin-top: 15px;
+  line-height: 1.5;
 }
 

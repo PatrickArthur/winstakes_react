@@ -94,7 +94,7 @@ const Footerbar = ({ isLoggedIn, hasProfile, setIsLoggedIn, setHasProfile }) => 
   }, [API_URL, token]);
 	
 	return (
-      <footer className="bg-light fixed-bottom">
+      <footer className="bg-light">
           <nav className="navbar navbar-expand navbar-light container">
             <div className="navbar-collapse">
               <ul className="navbar-nav mx-auto">

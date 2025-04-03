@@ -28,6 +28,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Fab from './components/wonks/Fab'; // Import your FAB component
 import PostingPage from './components/wonks/PostingPage';
+import './App.css'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
@@ -48,9 +49,9 @@ const App = () => {
   
   return (
     <Router>
-      <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+      <div className="d-flex flex-column full-height">
         <Navbar isLoggedIn={isLoggedIn} hasProfile={hasProfile}/>
-         <div className="d-flex flex-grow-1" style={{ position: 'relative' }}>
+         <div className="d-flex flex-grow-1 relative-containe">
           <Sidebar isLoggedIn={isLoggedIn} hasProfile={hasProfile} />
           
           <div className="flex-grow-1 position-relative">
