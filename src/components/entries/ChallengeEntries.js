@@ -113,7 +113,7 @@ const ChallengeEntries = ({token, challenge, profileId, creatorId}) => {
         throw error;
       }
     };
-    
+
     return (
       <div>
             {entries.length <= 0 ? (

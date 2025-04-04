@@ -1,6 +1,6 @@
 // src/components/challenges/ChallengeTabs.js
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChallengeEntries from '../entries/ChallengeEntries';
 import ChallengeParticipants from "./ChallengeParticipants";
 import WonkView from '../wonks/WonkView';
@@ -8,6 +8,12 @@ import './ChallengeTabs.css'; // Your CSS file
 
 const ChallengeTabs = ({ token, challenge, profileId, wonks, setWonks, newWonkContent, setNewWonkContent, hasMore }) => {
   const [activeTab, setActiveTab] = useState("overview");
+
+  useEffect(() => {
+    if (challenge.status === 'voting') {
+      setActiveTab("entries");
+    }
+  }, [challenge.status]);
 
   return (
     <div className="tab-container">

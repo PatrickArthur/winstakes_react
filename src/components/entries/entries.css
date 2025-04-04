@@ -157,3 +157,23 @@
   margin-right: 4px;         /* Space between icon and text */
   vertical-align: middle;    /* Align the icon with text */
 }
+
+/* ADD this to improve layout and highlight winners */
+.participants-table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.participants-table img,
+.participants-table video {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.winner-entry {
+  background-color: #e0ffe0;
+  border-left: 4px solid #28a745;
+  font-weight: bold;
+}

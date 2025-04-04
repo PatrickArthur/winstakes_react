@@ -121,7 +121,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     const initialLiked = challenge.likes.some(like => like.profile_id == storedProfileId)
 
     return (
-      <div className="challenge-show-page">
+      <div className="challenge-show-page" style={{ paddingTop: '20px' }}>
         <h1 className="challenge-title">{challenge.title}</h1>
         <ChallengeStatusTag status={challenge.status} />
         <div className="challenge-info">
