@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './entries.css'; // Your CSS file
 import consumer from '../../consumer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaThumbsUp } from 'react-icons/fa';
 import { fetchProfile } from '../../services/profileService';
 import { isVotingOpen, canUserVote } from "../voting/votingHelpers";
@@ -20,6 +20,7 @@ const ChallengeEntryPage = ({ token, challengeId, participantId, entryId}) => {
   const [hasVoted, setHasVoted] = useState(false);
   const [creatorId, setCreatorId] = useState(false);
   const [isFollowerOfCreator, setIsFollowerOfCreator] = useState(false); 
+  const storedProfileId = localStorage.getItem('profile_id');
 
   const fetchEntryData = async () => {
       try {
@@ -156,66 +157,69 @@ const ChallengeEntryPage = ({ token, challengeId, participantId, entryId}) => {
   if (!entry) {
     return <div>No entry available</div>;
   }
-  console.log(entry)
+ 
   return (
-    <div className="entry-container">
-      <div className="entry-header">
-        <h2 className="entry-profile-name">{entry.challenge_participant.profile_name}</h2>
-      </div>
-      <div className="entry-user-email">
-        <p>{entry.challenge_participant.user_email}</p>
-      </div>
-      <div className="entry-current-score">
-        <p className="score-detail"><strong>Total Votes:</strong> {entry.vote_count}</p>
-        <p className="score-detail"><strong>Current Score:</strong> {entry.weighted_score}</p>
-      </div>
-      <div className="attachments-section">
-        <h3>Attachments</h3>
-        <div className="attachment-item">
-          <p>File: 
-            <img
-              src={entry.file_attachment}
-              alt="File Attachment"
-              className="attachment-thumbnail"
-            />
-          </p>
+    <div>
+      <Link to={`/challenges/${challengeId}`} className="back-to-challenge-link">Back to Challenge</Link>
+      <div className="entry-container">
+        <div className="entry-header">
+          <h2 className="entry-profile-name">{entry.challenge_participant.profile_name}</h2>
         </div>
-        <div className="attachment-item">
-          <p>Video: 
-            <video controls className="video-thumbnail">
-              <source src={entry.video_attachment} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </p>
+        <div className="entry-user-email">
+          <p>{entry.challenge_participant.user_email}</p>
         </div>
-        <h4>Evidence Attachment URLs</h4>
-        <ul className="attachment-list">
-          {entry.evidence_attachment_urls.map((url, index) => (
-            <li key={index}>
+        <div className="entry-current-score">
+          <p className="score-detail"><strong>Total Votes:</strong> {entry.vote_count}</p>
+          <p className="score-detail"><strong>Current Score:</strong> {entry.weighted_score}</p>
+        </div>
+        <div className="attachments-section">
+          <h3>Attachments</h3>
+          <div className="attachment-item">
+            <p>File: 
               <img
-                src={url}
-                alt={`Evidence Attachment ${index + 1}`}
-                className="attachment-image"
+                src={entry.file_attachment}
+                alt="File Attachment"
+                className="attachment-thumbnail"
               />
-            </li>
-          ))}
-        </ul>
-      </div>
-       <div className="entry-actions">
-        {isEntered && (
-          <button className="edit-button" onClick={() => handleEdit(entry.id)}>
-            Edit
-          </button>
-        )}
-        {(isEntered || isCreator) && (
-          <button className="delete-button" onClick={handleDelete}>
-            Delete
-          </button>
-        )}
-        {isVotingOpen(entry.challenge) &&
-          canUserVote(entry.challenge, isEntered, isFollowerOfCreator) && (
-            <VoteButton api_url={API_URL} token={token} entryId={entry.id} challengeId={entry.challenge.id} profileId={profileId}/>
-        )}
+            </p>
+          </div>
+          <div className="attachment-item">
+            <p>Video: 
+              <video controls className="video-thumbnail">
+                <source src={entry.video_attachment} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </p>
+          </div>
+          <h4>Evidence Attachment URLs</h4>
+          <ul className="attachment-list">
+            {entry.evidence_attachment_urls.map((url, index) => (
+              <li key={index}>
+                <img
+                  src={url}
+                  alt={`Evidence Attachment ${index + 1}`}
+                  className="attachment-image"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+         <div className="entry-actions">
+          {isEntered && (
+            <button className="edit-button" onClick={() => handleEdit(entry.id)}>
+              Edit
+            </button>
+          )}
+          {(isEntered || isCreator) && (
+            <button className="delete-button" onClick={handleDelete}>
+              Delete
+            </button>
+          )}
+          {isVotingOpen(entry.challenge) &&
+            canUserVote(entry.challenge, isEntered, isFollowerOfCreator, entry.challenge_participant.profile_id == storedProfileId) && (
+              <VoteButton api_url={API_URL} token={token} entryId={entry.id} challengeId={entry.challenge.id} profileId={profileId}/>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -107,7 +107,7 @@ const ChallengeEntryForm = ({ challengeId, participantId, entryId, token }) => {
 
       const data = await response.json();
       setEntry(data.entry)
-      navigate(`/challenges/${challengeId}/entries`);
+      navigate(`/challenges/${challengeId}`);
     } catch (err) {
       setError(err.message);
       console.error('There was a problem with the fetch operation:', err);

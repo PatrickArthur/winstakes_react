@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const JoinLeaveButtons = ({ api_url, isOwner, isParticipant, participantId, challengeId, profileId, token, setIsParticipant }) => {
+const JoinLeaveButtons = ({ api_url, isOwner, isParticipant, participantId, challengeId, profileId, token, setIsParticipant, fetchChallenge }) => {
   const joinChallenge = async () => {
     const confirmed = window.confirm("Joining this challenge will deduct tokens and is non-refundable. Continue?");
     if (!confirmed) return;
@@ -19,6 +19,7 @@ const JoinLeaveButtons = ({ api_url, isOwner, isParticipant, participantId, chal
 
       if (res.ok) {
         setIsParticipant(true);
+        await fetchChallenge();
         alert("Joined successfully!");
       } else {
         const data = await res.json();

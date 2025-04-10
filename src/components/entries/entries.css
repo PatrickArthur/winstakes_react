@@ -82,13 +82,27 @@
   margin: 10px 0;
 }
 
-.attachment-thumbnail, .video-thumbnail, .attachment-image {
-  width: 100%;
-  max-width: 150px;
-  height: auto;
-  display: block;
-  margin: 10px 0;
-  border-radius: 4px;
+.attachment-thumbnail,
+  .video-thumbnail,
+  .attachment-image {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    max-height: 200px; /* Example max-height, adjust as needed */
+    display: block;
+    margin: 10px 0;
+    border-radius: 4px;
+ }
+
+.back-to-challenge-link {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.back-to-challenge-link:hover {
+  text-decoration: underline;
 }
 
 .attachment-list {
@@ -96,12 +110,6 @@
   flex-wrap: wrap;
   gap: 15px;
   padding: 0;
-}
-
-.attachment-image {
-  max-width: 100px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
 }
 
 .entry-actions {
@@ -176,4 +184,21 @@
   background-color: #e0ffe0;
   border-left: 4px solid #28a745;
   font-weight: bold;
+}
+
+
+.entry-subtabs {
+  margin-bottom: 10px;
+}
+.entry-subtabs button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font-weight: bold;
+}
+.entry-subtabs button.active {
+  border-bottom: 2px solid #333;
 }

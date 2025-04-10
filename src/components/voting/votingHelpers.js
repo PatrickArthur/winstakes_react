@@ -9,7 +9,13 @@ export const isVotingOpen = (challenge) => {
   return now >= start && now <= end;
 };
 
-export const canUserVote = (challenge, isParticipant, isFollowerOfCreator) => {
+export const canUserVote = (challenge, isParticipant, isFollowerOfCreator, isEntryOwner) => {
+  debugger
+   if (isEntryOwner) {
+    // User should not be able to vote on their own entry
+    return false;
+  }
+
   switch (challenge.judging_method) {
     case "publicVote":
       return true;

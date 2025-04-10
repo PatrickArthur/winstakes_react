@@ -31,8 +31,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     const [page, setPage] = useState(1);
     const storedProfileId = localStorage.getItem('profile_id');
 
-    useEffect(() => {
-      const fetchChallenge = async () => {
+    const fetchChallenge = async () => {
         try {
           const response = await fetch(`${API_URL}/challenges/${challengeId}`, {
             headers: {
@@ -44,7 +43,6 @@ const ChallengePage = ({token, challengeId, profileId}) => {
           if (!response.ok) throw new Error('Failed to fetch challenge');
 
           const data = await response.json();
-          debugger
           setChallenge(data.challenge);
           setIsEntered(data.challenge.entries.some(challenge => challenge.challenge_participant.profile_id == profileId))
           setParticipant(data.challenge.challenge_participants.filter(challenge => challenge.profile_id == profileId && challenge.challenge_id == challengeId)[0])
@@ -54,11 +52,11 @@ const ChallengePage = ({token, challengeId, profileId}) => {
         } finally {
           setLoading(false);
         }
-      };
+    };
 
+
+    useEffect(() => {
       fetchChallenge();
-
-
       const subscription = consumer.subscriptions.create(
         { channel: 'ChallengesChannel', challenge_id: challengeId },
         {
@@ -72,6 +70,8 @@ const ChallengePage = ({token, challengeId, profileId}) => {
         subscription.unsubscribe();
       };
     }, [challengeId, token]);
+
+
 
     const handleEdit = () => {
       navigate(`/edit/challenges/${challengeId}`);
@@ -147,7 +147,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
             likeId={likeId}
         />
 
-        {isParticipant && !isEntered && (
+        {isParticipant && participant?.id && !isEntered && (
           <Link to={`/challenges/${challengeId}/entries/${participant.id}`}> - View Entry Form</Link>
         )}
 
@@ -182,6 +182,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
           profileId={profileId}
           token={token}
           setIsParticipant={setIsParticipant}
+          fetchChallenge={fetchChallenge}
         />
         <ChallengeTabs
           token={token}
