@@ -119,7 +119,7 @@ const ChallengePage = ({token, challengeId, profileId}) => {
     const likedRecord = challenge.likes.find((like) => like.profile_id === storedProfileId);
     const likeId = likedRecord ? likedRecord.id : null;
     const initialLiked = challenge.likes.some(like => like.profile_id == storedProfileId)
-
+ 
     return (
       <div className="challenge-show-page" style={{ paddingTop: '20px' }}>
         <h1 className="challenge-title">{challenge.title}</h1>

@@ -13,7 +13,7 @@ const ChallengeEntries = ({token, challenge, profileId, creatorId}) => {
     const API_URL = 'http://localhost:4000';
     const [participant, setParticipant] = useState(false);
     const [isFollowerOfCreator, setIsFollowerOfCreator] = useState(false);
-    const [entries, setEntries] = useState(challenge.entries || []);
+    const [entries, setEntries] = useState(Object.values(challenge.entries || []));
     const [votedEntryIds, setVotedEntryIds] = useState(new Set());
     const [subTab, setSubTab] = useState('unvoted');
     const navigate = useNavigate();
@@ -34,10 +34,12 @@ const ChallengeEntries = ({token, challenge, profileId, creatorId}) => {
       setVotedEntryIds(prev => new Set(prev).add(entryId));
     };
 
-    const displayedEntries = entries.filter(entry =>
-      subTab === 'voted' ? votedEntryIds.has(entry.id) : !votedEntryIds.has(entry.id)
-    );
-  
+    const displayedEntries = entries.filter(entry => {
+      // Check if the entry is considered voted, either through `voted_by_current_user` or updated vote set
+      const isVoted = entry.voted_by_current_user || votedEntryIds.has(entry.id);
+      return subTab === 'voted' ? isVoted : !isVoted;
+    });
+
     return (
       <div>
         <div className="entry-subtabs">
